@@ -1,0 +1,13 @@
+---
+# tasks file for configure-network
+- name: Add an Ethernet connection with static IP configuration
+  become: true
+  community.general.nmcli:
+    conn_name: "{{ item.name }}"
+    ifname: "{{ item.iterface_name }}"
+    type: "{{ item.type }}"
+    ip4: "{{ item.ip }}"
+    state: "{{ item.state }}"
+  loop: "{{ network_interfaces }}"
+  notify: 
+    - restart network
